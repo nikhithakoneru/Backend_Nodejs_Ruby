@@ -44,6 +44,7 @@
 const Firm = require('../models/Firm');
 const Vendor = require('../models/Vendor'); // Corrected to 'Vendor'
 const multer = require('multer'); // For images
+const path = require('path');
 
 // For images
 const storage = multer.diskStorage({
