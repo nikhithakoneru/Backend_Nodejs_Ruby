@@ -70,6 +70,9 @@ const addFirm = async (req, res) => {
         if (!vendorData) {
             return res.status(404).json({ message: "Vendor not found" });
         }
+        if(vendorData.firm.length>0){
+            return res.status(400).json({message: "vendor can have only one firm"})
+        }
 
         const firm = new Firm({
             firmName, 
@@ -82,11 +85,18 @@ const addFirm = async (req, res) => {
         });
 
         const savedFirm = await firm.save();
+            //firm id storing
+
+            const firmId = savedFirm._id
         vendorData.firm.push(savedFirm)
 
         await vendorData.save()
 
-        return res.status(200).json({ message: 'Firm Added successfully' });
+        //condition-vendor must have only one firm
+
+        
+
+        return res.status(200).json({ message: 'Firm Added successfully', firmId });
     } catch (error) {
         console.error(error);
         return res.status(500).json("Internal server error");

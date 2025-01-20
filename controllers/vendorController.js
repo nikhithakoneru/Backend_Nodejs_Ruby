@@ -45,7 +45,10 @@ try{
     }
     const token = jwt.sign({vendorId: vendor._id}, secretKey, {expiresIn:"1h"})
 
-    res.status(200).json({success: "Login success", token})
+    const vendorId = vendor._id
+
+
+    res.status(200).json({success: "Login success", token, vendorId })
     console.log(email, "this is token", token);
 }catch(error){
     console.log(error);
@@ -74,7 +77,9 @@ const getVendorById = async(req, res)=>{
         if(!vendor){
             return res.status(400).json({error: "Vendor not found"});
         }
-        res.status(200).json({vendor})
+        const vendorFirmId = vendor.firm[0]._id;
+        res.status(200).json({ vendorId, vendorFirmId, vendor})
+        console.log( vendorFirmId);
     } catch(error){
         console.error(error);
         res.status(404).json({error: "Interval server error"});
